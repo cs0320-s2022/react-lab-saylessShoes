@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import {Simulate} from "react-dom/test-utils";
-import change = Simulate.change;
 // @ts-ignore
 import {AwesomeButton} from "react-awesome-button";
 import "react-awesome-button/dist/themes/theme-eric.css";
@@ -13,21 +11,19 @@ interface AstrologyProps {
     rising: string;
 }
 
+const TextBox = ({label, change}: {label : string; change: Function}) => {
 
-
+    return (
+        <div>
+            <label>{label}</label>
+            <input type={'text'} onChange={e => {
+                change(e.target.value)
+            }}/>
+        </div>
+    );
+}
 
 function Horoscope() {
-    const TextBox = ({label, change}: {label : string; change: Function}) => {
-
-        return (
-            <div>
-                <label>{label}</label>
-                <input type={'text'} onChange={event => {
-                    change(event.target.value)
-                }}/>
-            </div>
-        );
-    }
 
     const [sun, setSun] = useState("");
     const [moon, setMoon] = useState("");
@@ -57,6 +53,7 @@ function Horoscope() {
     }
 
     return (
+        <div>
             <TextBox label={"Sun Sign"} change={setSun}/>
             <TextBox label={"Moon Sign"} change={setMoon}/>
             <TextBox label={"Rising Sign"} change={setRising}/>
@@ -66,6 +63,7 @@ function Horoscope() {
             {horoscope.map((element) => {
                 return( <p key={element.toString()}>{element}</p> )
             })}
+        </div>
     );
 }
 export default Horoscope;
